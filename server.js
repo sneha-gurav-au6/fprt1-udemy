@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 
 require("./db");
-const port = 5000;
+const PORT = process.env.PORT||5000
 
 const user = require("./Routes/userRoutes");
 const admin = require("./Routes/AdminRoutes");
@@ -16,6 +16,10 @@ app.use(
     })
 );
 
+if(process.env.NODE_ENV==="production"){
+    app.use(express.static('client/build'))
+}
+
 app.use(user);
 app.use(admin);
-app.listen(port, () => console.log("server started"));
+app.listen(PORT, () => console.log("server started"));
